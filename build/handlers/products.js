@@ -18,14 +18,14 @@ const currentProduct = new products_1.default();
 const create = (req, _res) => __awaiter(void 0, void 0, void 0, function* () {
     const newProduct = {
         name: req.body.name,
-        price: req.body.price
+        price: req.body.price,
     };
     try {
         const createdProduct = yield currentProduct.create(newProduct);
         _res.status(200).json(createdProduct);
     }
     catch (err) {
-        _res.status(400).send('Failed to create this product: ' + err);
+        _res.status(400).send("Failed to create this product: " + err);
     }
 });
 exports.create = create;
@@ -35,7 +35,7 @@ const displayProducts = (req, res) => __awaiter(void 0, void 0, void 0, function
         res.status(200).json(products);
     }
     catch (err) {
-        res.status(400).send('Failed to display products list:  ' + err);
+        res.status(400).send("Failed to display products list:  " + err);
     }
 });
 exports.displayProducts = displayProducts;
@@ -45,7 +45,7 @@ const displayProduct = (req, res) => __awaiter(void 0, void 0, void 0, function*
         res.status(200).json(product);
     }
     catch (err) {
-        res.status(400).send('Failed to display requested product:  ' + err);
+        res.status(400).send("Failed to display requested product:  " + err);
     }
 });
 exports.displayProduct = displayProduct;

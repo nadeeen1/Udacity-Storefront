@@ -5,20 +5,22 @@ These are the notes from a meeting with the frontend developer that describe wha
 
 ## API Endpoints
 #### Products
-- Index 
-- Show
-- Create [token required]
+- Index `'products/showproducts' [GET]`
+- Show `'products/showproduct/:id' [GET]`
+- Create [token required] `'products/create' [POST] [token]`
 - [OPTIONAL] Top 5 most popular products 
 - [OPTIONAL] Products by category (args: product category)
 
 #### Users
-- Index [token required]
-- Show [token required]
-- Create N[token required]
+- Index [token required] `'users/showusers' [GET] [token]`
+- Show [token required]  `'users/show/:id' [GET] [token]`
+- Create N[token required] `'users/create' [POST] [no token]`
 
 #### Orders
-- Current Order by user (args: user id)[token required]
-- [OPTIONAL] Completed Orders by user (args: user id)[token required]
+- Current Order by user (args: user id)[token required] `'orders/current' [GET] [token]`
+- [OPTIONAL] Completed Orders by user (args: user id)[token required] `'orders/complete' [GET] [token]`
+- create orders `'orders/create' [POST] [token]`
+- add products to order `'orders/:id/products' [POST] [token]`
 
 ## Data Shapes
 #### Product
@@ -34,8 +36,23 @@ These are the notes from a meeting with the frontend developer that describe wha
 - password
 
 #### Orders
-- id
-- id of each product in the order
-- quantity of each product in the order
+- order_id
 - user_id
 - status of order (active or complete)
+
+#### 0rders_products
+- id
+- quantity
+- order_id
+- product_id
+
+#### Database Schema
+- Users Table:
+users (id: integer SERIAL PRIMARY KEY , firstName: VARCHAR , lastName: VARCHAR, password VARCHAR)
+- Products Table:
+products (id: integer SERIAL PRIMARY KEY, product_name: VARCHAR, price: integer)
+- Orders Table:
+orders (order_id: integer SERIAL PRIMARY KEY, user_id: integer foreign key references users(id), status: enum status)
+TYPE status AS ENUM('active','complete')
+- Order_Products Table:
+order_products (id: integer SERIAL PRIMARY KEY , quantity: integer , order_id: integer foreign key references orders(order_id) , product_id: integer foreign key references products(id));

@@ -1,54 +1,47 @@
-# Storefront Backend Project
+# StoreFront Backend Project #2 for Udacity
+In this repo lies a fully functioning API which acts as the backend of an online store site. All of the necessary endpoints have been implemented to further facilitate the frontend development process.
+All database related details can be found in the REQUIREMENTS.md file located below this file.
 
-## Getting Started
+### Database set up instruction
+The steps for database initialization are as follows:
+- connect to psql default database named 'postgres'
+- create two new database named db and db_test, where db_test will be used during the testing phase.
+    - the following sql commands can be used:
+    - CREATE DATABASE db;
+    - CREATE DATABASE db_test;
+    - p.s: don't forget the semi colon at the end of each query!
+- To connect to a specific database run the following query:
+    - \c database_name
+- All sql table create queries are located in the 'sql' folder located under the 'migrations' folder
 
-This repo contains a basic Node and Express app to get you started in constructing an API. To get started, clone this repo and run `yarn` in your terminal at the project root.
+### Database migrations
+- To migrate your sql queries onto the database run:
+    - npm run up to migrate the db database
+    - npm run testup to migrate the testing database namely db_test
 
-## Required Technologies
-Your application must make use of the following libraries:
-- Postgres for the database
-- Node/Express for the application logic
-- dotenv from npm for managing environment variables
-- db-migrate from npm for migrations
-- jsonwebtoken from npm for working with JWTs
-- jasmine from npm for testing
+### .env file
+- The following environmental variables were used during the development phase. These need to be placed in a .env file (replace hashed values with your own)
+    - POSTGRES_HOST = 127.0.0.1
+    - POSTGRES_DB = db
+    - POSTGRES_TEST_DB = db_test
+    - POSTGRES_USER = ####
+    - POSTGRES_PASS = ####
+    - POSTGRES_PORT = 5432
+    - ENV = dev
+    - BCRYPT_PASSWORD = #####
+    - SALT_ROUNDS = 10
+    - TOKEN_SECRET = ####
 
-## Steps to Completion
+### Run server
+- To run the app and start the server run the following command:
+    - npm run start
+    - server should start on port 3000
 
-### 1. Plan to Meet Requirements
+### Testing phase
+- To run the jasmine unit tests implemented, run the following command in terminal :
+    - npm run testing
 
-In this repo there is a `REQUIREMENTS.md` document which outlines what this API needs to supply for the frontend, as well as the agreed upon data shapes to be passed between front and backend. This is much like a document you might come across in real life when building or extending an API. 
-
-Your first task is to read the requirements and update the document with the following:
-- Determine the RESTful route for each endpoint listed. Add the RESTful route and HTTP verb to the document so that the frontend developer can begin to build their fetch requests.    
-**Example**: A SHOW route: 'blogs/:id' [GET] 
-
-- Design the Postgres database tables based off the data shape requirements. Add to the requirements document the database tables and columns being sure to mark foreign keys.   
-**Example**: You can format this however you like but these types of information should be provided
-Table: Books (id:varchar, title:varchar, author:varchar, published_year:varchar, publisher_id:string[foreign key to publishers table], pages:number)
-
-**NOTE** It is important to remember that there might not be a one to one ratio between data shapes and database tables. Data shapes only outline the structure of objects being passed between frontend and API, the database may need multiple tables to store a single shape. 
-
-### 2.  DB Creation and Migrations
-
-Now that you have the structure of the databse outlined, it is time to create the database and migrations. Add the npm packages dotenv and db-migrate that we used in the course and setup your Postgres database. If you get stuck, you can always revisit the database lesson for a reminder. 
-
-You must also ensure that any sensitive information is hashed with bcrypt. If any passwords are found in plain text in your application it will not pass.
-
-### 3. Models
-
-Create the models for each database table. The methods in each model should map to the endpoints in `REQUIREMENTS.md`. Remember that these models should all have test suites and mocks.
-
-### 4. Express Handlers
-
-Set up the Express handlers to route incoming requests to the correct model method. Make sure that the endpoints you create match up with the enpoints listed in `REQUIREMENTS.md`. Endpoints must have tests and be CORS enabled. 
-
-### 5. JWTs
-
-Add JWT functionality as shown in the course. Make sure that JWTs are required for the routes listed in `REQUIUREMENTS.md`.
-
-### 6. QA and `README.md`
-
-Before submitting, make sure that your project is complete with a `README.md`. Your `README.md` must include instructions for setting up and running your project including how you setup, run, and connect to your database. 
-
-Before submitting your project, spin it up and test each endpoint. If each one responds with data that matches the data shapes from the `REQUIREMENTS.md`, it is ready for submission!
+### scripts
+- npm run build will compile typescript down to javascript in a folder named 'build'
+- npm run reset will run all down migrations on the db database
+- npm run testdown will run all down migrations on the testing database db_test

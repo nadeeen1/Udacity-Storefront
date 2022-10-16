@@ -21,7 +21,7 @@ const showOrder = (req, _res) => __awaiter(void 0, void 0, void 0, function* () 
         _res.status(200).json(order);
     }
     catch (err) {
-        _res.status(400).send('Failed to show order: ' + err);
+        _res.status(400).send("Failed to show order: " + err);
     }
 });
 exports.showOrder = showOrder;
@@ -31,7 +31,7 @@ const showComplete = (req, _res) => __awaiter(void 0, void 0, void 0, function* 
         _res.status(200).json(orders);
     }
     catch (err) {
-        _res.status(400).send('Failed to show order: ' + err);
+        _res.status(400).send("Failed to show order: " + err);
     }
 });
 exports.showComplete = showComplete;
@@ -39,13 +39,13 @@ const createOrder = (req, _res) => __awaiter(void 0, void 0, void 0, function* (
     try {
         const order = {
             user_id: parseInt(req.body.user_id),
-            status: req.body.status
+            status: req.body.status,
         };
         const orders = yield currentOrder.createOrder(order);
         _res.status(200).json(orders);
     }
     catch (err) {
-        _res.status(400).send('Failed to create new order: ' + err);
+        _res.status(400).send("Failed to create new order: " + err);
     }
 });
 exports.createOrder = createOrder;
@@ -54,13 +54,13 @@ const addProducts = (req, _res) => __awaiter(void 0, void 0, void 0, function* (
         const order_product = {
             quantity: parseInt(req.body.quantity),
             order_id: parseInt(req.body.order_id),
-            product_id: parseInt(req.body.product_id)
+            product_id: parseInt(req.body.product_id),
         };
         const order = yield currentOrder.addProduct(order_product);
         _res.status(200).json(order);
     }
     catch (err) {
-        _res.status(400).send('Failed to add this product to the order: ' + err);
+        _res.status(400).send("Failed to add this product to the order: " + err);
     }
 });
 exports.addProducts = addProducts;

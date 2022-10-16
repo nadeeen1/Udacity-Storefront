@@ -13,71 +13,75 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const supertest_1 = __importDefault(require("supertest"));
-const bodyParser = require('body-parser');
+const bodyParser = require("body-parser");
 const index_1 = __importDefault(require("../../index"));
 index_1.default.use(bodyParser.json());
 index_1.default.use(bodyParser.urlencoded({ extended: false }));
 const request = (0, supertest_1.default)(index_1.default);
-describe('Products endpoint testing', function () {
-    it('creates a new product', function () {
+describe("Products endpoint testing", function () {
+    let token;
+    beforeAll(function create() {
         return __awaiter(this, void 0, void 0, function* () {
-            const product = {
-                name: "Product1",
-                price: 20
+            const user = {
+                firstname: "Testing3",
+                lastname: "User3",
+                password: "Pass123",
             };
-            const res = yield request.post('/products/create')
-                .set('Authorization', 'Bearer ' + process.env.TOKEN)
-                .send(product);
-            expect(res.body.id).toEqual(1);
-            expect(res.body.product_name).toEqual("Product1");
-            expect(res.body.price).toEqual(20);
-            expect(res.status).toEqual(200);
+            const res = yield request.post("/users/create").send(user);
+            token = res.body.token;
         });
     });
-    it('creates a second new product', function () {
+    it("creates a new product", function () {
         return __awaiter(this, void 0, void 0, function* () {
             const product = {
-                name: "Product2",
-                price: 40
+                name: "Product4",
+                price: 40,
             };
-            const res = yield (yield request.post('/products/create')
-                .set('Authorization', 'Bearer ' + process.env.TOKEN)
-                .send(product));
-            expect(res.body.id).toEqual(2);
-            expect(res.body.product_name).toEqual("Product2");
+            const res = yield request
+                .post("/products/create")
+                .set("Authorization", "Bearer " + token)
+                .send(product);
+            expect(res.body.id).toEqual(4);
+            expect(res.body.product_name).toEqual("Product4");
             expect(res.body.price).toEqual(40);
             expect(res.status).toEqual(200);
         });
     });
-    it('fails to create a new product as no token was supplied', function () {
+    it("fails to create a new product as no token was supplied", function () {
         return __awaiter(this, void 0, void 0, function* () {
             const product = {
                 name: "Product2",
-                price: 30
+                price: 30,
             };
-            const res = yield (yield request.post('/products/create').send(product));
+            const res = yield yield request.post("/products/create").send(product);
             expect(res.status).toEqual(401);
         });
     });
-    it('should return requested product', function () {
+    it("should return requested product", function () {
         return __awaiter(this, void 0, void 0, function* () {
-            const res = yield request.get('/products/showproduct/1');
+            const res = yield request.get("/products/showproduct/1");
             expect(res.body.id).toEqual(1);
             expect(res.body.product_name).toEqual("Product1");
-            expect(res.body.price).toEqual(20);
+            expect(res.body.price).toEqual(100);
             expect(res.status).toEqual(200);
         });
     });
-    it('should return requested products list', function () {
+    it("should return requested products list", function () {
         return __awaiter(this, void 0, void 0, function* () {
-            const res = yield request.get('/products/showproducts');
+            const res = yield request.get("/products/showproducts");
             expect(res.status).toEqual(200);
             expect(res.body[0].id).toEqual(1);
             expect(res.body[0].product_name).toEqual("Product1");
-            expect(res.body[0].price).toEqual(20);
+            expect(res.body[0].price).toEqual(100);
             expect(res.body[1].id).toEqual(2);
             expect(res.body[1].product_name).toEqual("Product2");
-            expect(res.body[1].price).toEqual(40);
+            expect(res.body[1].price).toEqual(50);
+            expect(res.body[2].id).toEqual(3);
+            expect(res.body[2].product_name).toEqual("Product3");
+            expect(res.body[2].price).toEqual(20);
+            expect(res.body[3].id).toEqual(4);
+            expect(res.body[3].product_name).toEqual("Product4");
+            expect(res.body[3].price).toEqual(40);
         });
     });
 });

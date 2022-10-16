@@ -19,13 +19,13 @@ class user {
         return __awaiter(this, void 0, void 0, function* () {
             try {
                 const conn = yield database_1.default.connect();
-                const sql = 'SELECT * FROM users';
+                const sql = "SELECT * FROM users";
                 const result = yield conn.query(sql);
                 conn.release();
                 return result.rows;
             }
             catch (err) {
-                throw new Error('Could not retrieve users: ' + err);
+                throw new Error("Could not retrieve users: " + err);
             }
         });
     }
@@ -37,17 +37,17 @@ class user {
                 //encrypting the password to be added to db
                 const encrypted = bcrypt_1.default.hashSync(user.password + pepper, parseInt(saltRounds));
                 const conn = yield database_1.default.connect();
-                const sql = 'INSERT INTO users (firstName, lastName, password) VALUES($1, $2, $3) RETURNING *';
+                const sql = "INSERT INTO users (firstName, lastName, password) VALUES($1, $2, $3) RETURNING *";
                 const result = yield conn.query(sql, [
-                    user.firstName,
-                    user.lastName,
-                    encrypted
+                    user.firstname,
+                    user.lastname,
+                    encrypted,
                 ]);
                 conn.release();
                 return result.rows[0];
             }
             catch (err) {
-                throw new Error('Could not create the requested user. Error message: ' + err);
+                throw new Error("Could not create the requested user. Error message: " + err);
             }
         });
     }
@@ -55,13 +55,13 @@ class user {
         return __awaiter(this, void 0, void 0, function* () {
             try {
                 const conn = yield database_1.default.connect();
-                const sql = 'SELECT * FROM users WHERE id = $1';
+                const sql = "SELECT * FROM users WHERE id = $1";
                 const result = yield conn.query(sql, [id]);
                 conn.release();
                 return result.rows[0];
             }
             catch (err) {
-                throw new Error('Could not retrieve requested user: ' + err);
+                throw new Error("Could not retrieve requested user: " + err);
             }
         });
     }

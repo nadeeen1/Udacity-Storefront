@@ -33,14 +33,16 @@ dotenv.config();
 const authenticate = (req, res, next) => {
     try {
         const tokenHeader = req.headers.authorization;
-        const token = tokenHeader.split(' ')[1];
+        const token = tokenHeader.split(" ")[1];
         const { TOKEN_SECRET } = process.env;
         if (jsonwebtoken_1.default.verify(token, TOKEN_SECRET)) {
             next();
         }
     }
     catch (err) {
-        res.status(401).send('Authentication error occurred due to invalid token!: ' + err);
+        res
+            .status(401)
+            .send("Authentication error occurred due to invalid token!: " + err);
     }
 };
 exports.authenticate = authenticate;
